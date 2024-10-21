@@ -1,35 +1,37 @@
+
 import { Component } from '@angular/core';
-import {FlightModel} from "../models/flight.model";
-import {WebService} from "../web.service";
-import {ActivatedRoute, RouterLink} from "@angular/router";
-import {JsonPipe, NgIf} from "@angular/common";
-import {HttpClientModule} from "@angular/common/http";
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { FlightModel } from '../../models/flight.model';
+import { WebService } from '../web.service';
+import { NgIf } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { SafePipe } from '../safe.pipe';
 
 @Component({
   selector: 'app-flight',
   standalone: true,
-  imports: [JsonPipe, HttpClientModule, RouterLink, NgIf],
+  imports: [HttpClientModule, RouterLink, NgIf, SafePipe],
   templateUrl: './flight.component.html',
   styleUrl: './flight.component.css'
 })
 export class FlightComponent {
 
-  public webService: WebService;
+  public webService: WebService
   public flight: FlightModel | null = null;
 
   constructor(private route: ActivatedRoute) {
-    this.webService = new WebService();
-
+    this.webService = WebService.getInstance()
     route.params.subscribe(params => {
+      // Preuzimamo variajble iz putanje
+      const id = params['id']
 
-      // Preuima variable iz putanje
-      const id = params['id'];
-
-      // Preuzima JSON objekat leta na osnovu prosledjenog ID !
+      // Preuzimamo JSON objekat leta za ID
       this.webService.getFlightById(id)
-          .subscribe(rsp=> this.flight = rsp);
-
+        .subscribe(rsp => this.flight = rsp)
     })
   }
-}
 
+  public getMapUrl(): string {
+    return `https://www.google.com/maps?output=embed&q=${this.flight?.destination}`
+  }
+}

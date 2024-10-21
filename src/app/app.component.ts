@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {RouterLink, RouterOutlet} from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,5 +10,5 @@ import {RouterLink, RouterOutlet} from '@angular/router';
 })
 export class AppComponent {
   title = 'interakcija-covek-racunar-2024';
-  year = new Date().getFullYear();
+  year = new Date().getFullYear()
 }
